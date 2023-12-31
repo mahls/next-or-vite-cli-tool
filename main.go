@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -19,18 +20,23 @@ func main() {
 		os.Exit(1)
 	}
 
+	fmt.Print("Enter the project name: ")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	projectName := scanner.Text()
+
 	switch choice {
 	case 1:
-		fmt.Println("Installing Next.js app...")
-		err := runCommand("npx", "create-next-app", "my-next-app")
+		fmt.Printf("Installing Next.js app with project name '%s'...\n", projectName)
+		err := runCommand("npx", "create-next-app", projectName)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error installing Next.js: %v\n", err)
 			os.Exit(1)
 		}
 		fmt.Println("Next.js installation complete.")
 	case 2:
-		fmt.Println("Installing Vite app...")
-		err := runCommand("npm", "create", "vite", "my-vite-app")
+		fmt.Printf("Installing Vite app with project name '%s'...\n", projectName)
+		err := runCommand("npm", "create", "vite", projectName)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error installing Vite: %v\n", err)
 			os.Exit(1)
